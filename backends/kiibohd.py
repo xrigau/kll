@@ -133,11 +133,14 @@ class Backend( BackendBase ):
 
 
 		## Results Macros ##
-		self.fill_dict['ResultMacros'] = ""
+		# TODO Simple Macros
+		self.fill_dict['ResultMacroGuides'] = ""
+		self.fill_dict['ResultMacroRecords'] = ""
 
 		# Iterate through each of the result macros
 		for result in range( 0, len( macros.resultsIndexSorted ) ):
-			self.fill_dict['ResultMacros'] += "Guide_RM( {0} ) = {{ ".format( result )
+			self.fill_dict['ResultMacroGuides'] += "Guide_RM( {0} ) = {{ ".format( result )
+			self.fill_dict['ResultMacroRecords'] += "Record_RM( {0} );\n".format( result )
 
 			# Add the result macro capability index guide (including capability arguments)
 			# See kiibohd controller Macros/PartialMap/kll.h for exact formatting details
@@ -146,17 +149,17 @@ class Backend( BackendBase ):
 				# Needed for USB behaviour, otherwise, repeated keys will not work
 				if sequence > 0:
 					# <single element>, <usbCodeSend capability>, <USB Code 0x00>
-					self.fill_dict['ResultMacros'] += "1, {0}, 0x00, ".format( capabilities.getIndex( self.usbCodeCapability() ) )
+					self.fill_dict['ResultMacroGuides'] += "1, {0}, 0x00, ".format( capabilities.getIndex( self.usbCodeCapability() ) )
 
 				# For each combo in the sequence, add the length of the combo
-				self.fill_dict['ResultMacros'] += "{0}, ".format( len( macros.resultsIndexSorted[ result ][ sequence ] ) )
+				self.fill_dict['ResultMacroGuides'] += "{0}, ".format( len( macros.resultsIndexSorted[ result ][ sequence ] ) )
 
 				# For each combo, add each of the capabilities used and their arguments
 				for combo in range( 0, len( macros.resultsIndexSorted[ result ][ sequence ] ) ):
 					resultItem = macros.resultsIndexSorted[ result ][ sequence ][ combo ]
 
 					# Add the capability index
-					self.fill_dict['ResultMacros'] += "{0}, ".format( capabilities.getIndex( resultItem[0] ) )
+					self.fill_dict['ResultMacroGuides'] += "{0}, ".format( capabilities.getIndex( resultItem[0] ) )
 
 					# Add each of the arguments of the capability
 					for arg in range( 0, len( resultItem[1] ) ):
@@ -166,38 +169,38 @@ class Backend( BackendBase ):
 			# Required by USB to end at sequence without holding the key down
 			if len( macros.resultsIndexSorted[ result ] ) > 1:
 				# <single element>, <usbCodeSend capability>, <USB Code 0x00>
-				self.fill_dict['ResultMacros'] += "1, {0}, 0x00, ".format( capabilities.getIndex( self.usbCodeCapability() ) )
+				self.fill_dict['ResultMacroGuides'] += "1, {0}, 0x00, ".format( capabilities.getIndex( self.usbCodeCapability() ) )
 
 			# Add list ending 0 and end of list
-			self.fill_dict['ResultMacros'] += "0 };\n"
-		self.fill_dict['ResultMacros'] = self.fill_dict['ResultMacros'][:-1] # Remove last newline
+			self.fill_dict['ResultMacroGuides'] += "0 };\n"
+		self.fill_dict['ResultMacroGuides'] = self.fill_dict['ResultMacroGuides'][:-1] # Remove last newline
+		self.fill_dict['ResultMacroRecords'] = self.fill_dict['ResultMacroRecords'][:-1] # Remove last newline
 
 
 		## Result Macro List ##
 		self.fill_dict['ResultMacroList'] = "const ResultMacro ResultMacroList[] = {\n"
 
 		# Iterate through each of the result macros
+		# TODO Add simple macros
 		for result in range( 0, len( macros.resultsIndexSorted ) ):
-			self.fill_dict['ResultMacroList'] += "\tDefine_RM( {0} ),\n".format( result )
+			self.fill_dict['ResultMacroList'] += "\tDefine_RM_{1}( {0} ),\n".format( result, "Normal" )
 		self.fill_dict['ResultMacroList'] += "};"
 
 
-		## Result Macro Record ##
-		self.fill_dict['ResultMacroRecord'] = "ResultMacroRecord ResultMacroRecordList[ ResultMacroNum ];"
-
-
 		## Trigger Macros ##
-		self.fill_dict['TriggerMacros'] = ""
+		self.fill_dict['TriggerMacroGuides'] = ""
+		self.fill_dict['TriggerMacroRecords'] = ""
 
 		# Iterate through each of the trigger macros
 		for trigger in range( 0, len( macros.triggersIndexSorted ) ):
-			self.fill_dict['TriggerMacros'] += "Guide_TM( {0} ) = {{ ".format( trigger )
+			self.fill_dict['TriggerMacroGuides'] += "Guide_TM( {0} ) = {{ ".format( trigger )
+			self.fill_dict['TriggerMacroRecords'] += "Record_TM( {0} );\n".format( trigger )
 
 			# Add the trigger macro scan code guide
 			# See kiibohd controller Macros/PartialMap/kll.h for exact formatting details
 			for sequence in range( 0, len( macros.triggersIndexSorted[ trigger ][ 0 ] ) ):
 				# For each combo in the sequence, add the length of the combo
-				self.fill_dict['TriggerMacros'] += "{0}, ".format( len( macros.triggersIndexSorted[ trigger ][0][ sequence ] ) )
+				self.fill_dict['TriggerMacroGuides'] += "{0}, ".format( len( macros.triggersIndexSorted[ trigger ][0][ sequence ] ) )
 
 				# For each combo, add the key type, key state and scan code
 				for combo in range( 0, len( macros.triggersIndexSorted[ trigger ][ 0 ][ sequence ] ) ):
@@ -205,25 +208,23 @@ class Backend( BackendBase ):
 
 					# TODO Add support for Analog keys
 					# TODO Add support for LED states
-					self.fill_dict['TriggerMacros'] += "0x00, 0x01, 0x{0:02X}, ".format( triggerItem )
+					self.fill_dict['TriggerMacroGuides'] += "0x00, 0x01, 0x{0:02X}, ".format( triggerItem )
 
 			# Add list ending 0 and end of list
-			self.fill_dict['TriggerMacros'] += "0 };\n"
-		self.fill_dict['TriggerMacros'] = self.fill_dict['TriggerMacros'][ :-1 ] # Remove last newline
+			self.fill_dict['TriggerMacroGuides'] += "0 };\n"
+		self.fill_dict['TriggerMacroGuides'] = self.fill_dict['TriggerMacroGuides'][:-1] # Remove last newline
+		self.fill_dict['TriggerMacroRecords'] = self.fill_dict['TriggerMacroRecords'][:-1] # Remove last newline
 
 
 		## Trigger Macro List ##
 		self.fill_dict['TriggerMacroList'] = "const TriggerMacro TriggerMacroList[] = {\n"
 
 		# Iterate through each of the trigger macros
+		# TODO Add simple macros
 		for trigger in range( 0, len( macros.triggersIndexSorted ) ):
 			# Use TriggerMacro Index, and the corresponding ResultMacro Index
-			self.fill_dict['TriggerMacroList'] += "\tDefine_TM( {0}, {1} ),\n".format( trigger, macros.triggersIndexSorted[ trigger ][1] )
+			self.fill_dict['TriggerMacroList'] += "\tDefine_TM_{2}( {0}, {1} ),\n".format( trigger, macros.triggersIndexSorted[ trigger ][1], "Normal" )
 		self.fill_dict['TriggerMacroList'] += "};"
-
-
-		## Trigger Macro Record ##
-		self.fill_dict['TriggerMacroRecord'] = "TriggerMacroRecord TriggerMacroRecordList[ TriggerMacroNum ];"
 
 
 		## Max Scan Code ##

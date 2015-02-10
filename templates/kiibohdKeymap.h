@@ -36,7 +36,10 @@
 // -- Result Macros
 
 // Result Macro Guides
-<|ResultMacros|>
+<|ResultMacroGuides|>
+
+// Result Macro Records
+<|ResultMacroRecords|>
 
 
 // -- Result Macro List
@@ -45,28 +48,19 @@
 <|ResultMacroList|>
 
 
-// -- Trigger Macro Record
-
-// Keeps a record/state of each result macro
-<|ResultMacroRecord|>
-
-
 // -- Trigger Macros
 
 // Trigger Macro Guides
-<|TriggerMacros|>
+<|TriggerMacroGuides|>
+
+// Trigger Macro Records
+<|TriggerMacroRecords|>
 
 
 // -- Trigger Macro List
 
 // Indexed Table of Trigger Macros
 <|TriggerMacroList|>
-
-
-// -- Trigger Macro Record List
-
-// Keeps a record/state of each trigger macro
-<|TriggerMacroRecord|>
 
 
 
