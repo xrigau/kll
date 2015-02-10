@@ -133,14 +133,24 @@ class Backend( BackendBase ):
 
 
 		## Results Macros ##
-		# TODO Simple Macros
+
+		# List of non-complex ResultMacros
+		# These are defined as a single combo (sequence depth of 1)
+		simpleResultMacros = []
+
 		self.fill_dict['ResultMacroGuides'] = ""
 		self.fill_dict['ResultMacroRecords'] = ""
 
 		# Iterate through each of the result macros
 		for result in range( 0, len( macros.resultsIndexSorted ) ):
 			self.fill_dict['ResultMacroGuides'] += "Guide_RM( {0} ) = {{ ".format( result )
-			self.fill_dict['ResultMacroRecords'] += "Record_RM( {0} );\n".format( result )
+
+			# Determine if the ResultMacro is simple
+			if len( macros.resultsIndexSorted[ result ] ) == 1:
+				simpleResultMacros.append( result )
+			# Otherwise add a Record
+			else:
+				self.fill_dict['ResultMacroRecords'] += "Record_RM( {0} );\n".format( result )
 
 			# Add the result macro capability index guide (including capability arguments)
 			# See kiibohd controller Macros/PartialMap/kll.h for exact formatting details
@@ -163,7 +173,7 @@ class Backend( BackendBase ):
 
 					# Add each of the arguments of the capability
 					for arg in range( 0, len( resultItem[1] ) ):
-						self.fill_dict['ResultMacros'] += "{0}, ".format( resultItem[1][ arg ] )
+						self.fill_dict['ResultMacroGuides'] += "{0}, ".format( resultItem[1][ arg ] )
 
 			# If sequence is longer than 1, append a sequence spacer at the end of the sequence
 			# Required by USB to end at sequence without holding the key down
@@ -174,27 +184,48 @@ class Backend( BackendBase ):
 			# Add list ending 0 and end of list
 			self.fill_dict['ResultMacroGuides'] += "0 };\n"
 		self.fill_dict['ResultMacroGuides'] = self.fill_dict['ResultMacroGuides'][:-1] # Remove last newline
-		self.fill_dict['ResultMacroRecords'] = self.fill_dict['ResultMacroRecords'][:-1] # Remove last newline
+
+		# Remove last newline if a record was added
+		if self.fill_dict['ResultMacroRecords'] != "":
+			self.fill_dict['ResultMacroRecords'] = self.fill_dict['ResultMacroRecords'][:-1]
+		else:
+			self.fill_dict['ResultMacroRecords'] = "// <None>"
 
 
 		## Result Macro List ##
 		self.fill_dict['ResultMacroList'] = "const ResultMacro ResultMacroList[] = {\n"
 
 		# Iterate through each of the result macros
-		# TODO Add simple macros
 		for result in range( 0, len( macros.resultsIndexSorted ) ):
-			self.fill_dict['ResultMacroList'] += "\tDefine_RM_{1}( {0} ),\n".format( result, "Normal" )
+			# Check if this is a simple ResultMacro
+			self.fill_dict['ResultMacroList'] += "\tDefine_RM_{1}( {0} ),\n".format(
+				result,
+				"Simple"
+				if result in simpleResultMacros else
+				"Normal"
+			)
 		self.fill_dict['ResultMacroList'] += "};"
 
 
 		## Trigger Macros ##
+
+		# List of non-complex TriggerMacros
+		# These are defined as a single combo (sequence depth of 1)
+		simpleTriggerMacros = []
+
 		self.fill_dict['TriggerMacroGuides'] = ""
 		self.fill_dict['TriggerMacroRecords'] = ""
 
 		# Iterate through each of the trigger macros
 		for trigger in range( 0, len( macros.triggersIndexSorted ) ):
 			self.fill_dict['TriggerMacroGuides'] += "Guide_TM( {0} ) = {{ ".format( trigger )
-			self.fill_dict['TriggerMacroRecords'] += "Record_TM( {0} );\n".format( trigger )
+
+			# Determine if TriggerMacro is simple
+			if len( macros.triggersIndexSorted[ trigger ][ 0 ] ) == 1:
+				simpleTriggerMacros.append( trigger )
+			# Otherwise add a Record
+			else:
+				self.fill_dict['TriggerMacroRecords'] += "Record_TM( {0} );\n".format( trigger )
 
 			# Add the trigger macro scan code guide
 			# See kiibohd controller Macros/PartialMap/kll.h for exact formatting details
@@ -213,17 +244,27 @@ class Backend( BackendBase ):
 			# Add list ending 0 and end of list
 			self.fill_dict['TriggerMacroGuides'] += "0 };\n"
 		self.fill_dict['TriggerMacroGuides'] = self.fill_dict['TriggerMacroGuides'][:-1] # Remove last newline
-		self.fill_dict['TriggerMacroRecords'] = self.fill_dict['TriggerMacroRecords'][:-1] # Remove last newline
+
+		# Remove last newline if a record was added
+		if self.fill_dict['TriggerMacroRecords'] != "":
+			self.fill_dict['TriggerMacroRecords'] = self.fill_dict['TriggerMacroRecords'][:-1]
+		else:
+			self.fill_dict['TriggerMacroRecords'] = "// <None>"
 
 
 		## Trigger Macro List ##
 		self.fill_dict['TriggerMacroList'] = "const TriggerMacro TriggerMacroList[] = {\n"
 
 		# Iterate through each of the trigger macros
-		# TODO Add simple macros
 		for trigger in range( 0, len( macros.triggersIndexSorted ) ):
 			# Use TriggerMacro Index, and the corresponding ResultMacro Index
-			self.fill_dict['TriggerMacroList'] += "\tDefine_TM_{2}( {0}, {1} ),\n".format( trigger, macros.triggersIndexSorted[ trigger ][1], "Normal" )
+			# Check if this is a simple TriggerMacro
+			self.fill_dict['TriggerMacroList'] += "\tDefine_TM_{2}( {0}, {1} ),\n".format(
+				trigger, macros.triggersIndexSorted[ trigger ][1],
+				"Simple"
+				if trigger in simpleTriggerMacros else
+				"Normal"
+			)
 		self.fill_dict['TriggerMacroList'] += "};"
 
 
