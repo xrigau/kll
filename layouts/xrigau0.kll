@@ -4,6 +4,9 @@ Version = "0.1";
 Author = "xrigau";
 KLL = "0.3c";
 
+updateLeds => CustomAction_updateLeds_capability();
+lightEsc => CustomAction_lightEsc_capability();
+
 U"ESC" : U"ESC";
 U"1" : U"1";
 U"2" : U"2";
@@ -58,13 +61,13 @@ U"COMMA" : U"COMMA";
 U"PERIOD" : U"PERIOD";
 U"SLASH" : U"SLASH";
 U"RSHIFT" : U"RSHIFT";
-U"FUNCTION1" : U"FUNCTION1";
-U"FUNCTION2" : U"FUN1";
+U"FUNCTION1" : updateLeds() + layerLock(1);
+U"FUNCTION2" : layerShift( 1 );
 U"LALT" : U"LALT";
 U"LGUI" : U"LGUI";
 U"SPACE" : U"SPACE";
 U"RGUI" : U"RGUI";
 U"RALT" : U"RALT";
-U"FUNCTION3" : U"FUN2";
-U"FUNCTION4" : U"FUN1";
 
+U"FUNCTION3" : layerShift(1);
+U"FUNCTION4" : lightEsc() + layerShift(2);

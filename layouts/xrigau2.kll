@@ -4,26 +4,4 @@ Version = "0.1";
 Author = "xrigau";
 KLL = "0.3c";
 
-# Basic ISSI Capabilities
-# Modes
-#  0: Decrease single led brightness
-#  1: Increase single led brightness
-#  2: Set single led brightness
-#  3: Decrease brightness of all leds
-#  4: Increase brightness of all leds
-#  5: Set brightness of all leds
-# Amount -> 0 -> 255
-# Index:
-#  Depends on keyboard. At least from from 0 -> 143 (single chip).
-#  Remember, it may be possible that all leds on a single chip are connected.
-#  So it may be possible that you may have index gaps.
-#  i.e. 23 then 144
-ledControlTest => CustomAction_test_capability( mode : 1, amount : 1, index : 2 );
-
 U"ESC" : flashMode();
-U"A" : ledControlTest( 3, 10, 0 );
-U"S" : ledControlTest( 4, 10, 0 );
-U"D" : ledControlTest( 5,  255, 0 );
-U"F" : ledControlTest( 5,  0, 0 );
-#U"D" : ledControlTest( 2,  0, 0 );
-

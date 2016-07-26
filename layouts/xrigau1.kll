@@ -4,6 +4,11 @@ Version = "0.1";
 Author = "xrigau";
 KLL = "0.3c";
 
+increaseAllLedsLuminosity => CustomAction_increaseAllLedsLuminosity_capability();
+decreaseAllLedsLuminosity => CustomAction_decreaseAllLedsLuminosity_capability();
+turnAllLedsOff => CustomAction_turnAllLedsOff_capability();
+
+U"0" : U"F10";
 U"1" : U"F1";
 U"2" : U"F2";
 U"3" : U"F3";
@@ -13,28 +18,23 @@ U"6" : U"F6";
 U"7" : U"F7";
 U"8" : U"F8";
 U"9" : U"F9";
-U"0" : U"F10";
 U"MINUS" : U"F11";
 U"EQUAL" : U"F12";
-U"BACKSLASH" : U"INSERT";
-U"BACKTICK" : U"DELETE";
-U"TAB" : U"CAPSLOCK";
-U"I" : U"PRINTSCREEN";
-U"O" : U"SCROLLLOCK";
-U"P" : U"PAUSE";
-U"LBRACE" : U"UP";
-U"A" : CONS"VOLUMEDOWN";
-U"S" : CONS"VOLUMEUP";
-U"D" : CONS"MUTE";
-U"H" : U"P*";
-U"J" : U"P/";
-U"K" : U"HOME";
-U"L" : U"PAGEUP";
-U"SEMICOLON" : U"LEFT";
-U"QUOTE" : U"RIGHT";
-U"N" : U"P+";
-U"M" : U"P-";
-U"COMMA" : U"END";
-U"PERIOD" : U"PAGEDOWN";
-U"SLASH" : U"DOWN";
 
+U"RSHIFT" : U"UP";
+U"FUNCTION3" : U"DOWN";
+U"FUNCTION4" : U"RIGHT";
+U"RALT" : U"LEFT";
+
+U"CTRL" + U"LBRACE" : CONS"VOLUMEDOWN";
+U"CTRL" + U"RBRACE" : CONS"VOLUMEUP";
+U"CTRL" + U"BACKSPACE" : CONS"MUTE";
+
+U"CTRL" + U"QUOTE" : U"PAGEUP";
+U"CTRL" + U"SLASH" : U"PAGEDOWN";
+U"CTRL" + U"SEMICOLON" : U"HOME";
+U"CTRL" + U"PERIOD" : U"END";
+
+U"CTRL" + U"BACKSLASH" : decreaseAllLedsLuminosity();
+U"CTRL" + U"BACKTICK" : increaseAllLedsLuminosity();
+U"CTRL" + U"ENTER" : turnAllLedsOff();
