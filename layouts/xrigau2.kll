@@ -4,4 +4,21 @@ Version = "0.1";
 Author = "xrigau";
 KLL = "0.3c";
 
+increaseAllLedsLuminosity => CustomAction_increaseAllLedsLuminosity_capability();
+decreaseAllLedsLuminosity => CustomAction_decreaseAllLedsLuminosity_capability();
+turnAllLedsOff => CustomAction_turnAllLedsOff_capability();
+
 U"ESC" : flashMode();
+
+U"LBRACE" : CONS"VOLUMEDOWN";
+U"RBRACE" : CONS"VOLUMEUP";
+U"BACKSPACE" : CONS"MUTE";
+
+U"QUOTE" : U"PAGEUP";
+U"SLASH" : U"PAGEDOWN";
+U"SEMICOLON" : U"HOME";
+U"PERIOD" : U"END";
+
+U"MINUS" : decreaseAllLedsLuminosity();
+U"EQUAL" : increaseAllLedsLuminosity();
+U"0" : turnAllLedsOff();

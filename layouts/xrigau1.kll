@@ -4,10 +4,6 @@ Version = "0.1";
 Author = "xrigau";
 KLL = "0.3c";
 
-increaseAllLedsLuminosity => CustomAction_increaseAllLedsLuminosity_capability();
-decreaseAllLedsLuminosity => CustomAction_decreaseAllLedsLuminosity_capability();
-turnAllLedsOff => CustomAction_turnAllLedsOff_capability();
-
 U"0" : U"F10";
 U"1" : U"F1";
 U"2" : U"F2";
@@ -26,15 +22,3 @@ U"FUNCTION3" : U"DOWN";
 U"FUNCTION4" : U"RIGHT";
 U"RALT" : U"LEFT";
 
-U"CTRL" + U"LBRACE" : CONS"VOLUMEDOWN";
-U"CTRL" + U"RBRACE" : CONS"VOLUMEUP";
-U"CTRL" + U"BACKSPACE" : CONS"MUTE";
-
-U"CTRL" + U"QUOTE" : U"PAGEUP";
-U"CTRL" + U"SLASH" : U"PAGEDOWN";
-U"CTRL" + U"SEMICOLON" : U"HOME";
-U"CTRL" + U"PERIOD" : U"END";
-
-U"CTRL" + U"BACKSLASH" : decreaseAllLedsLuminosity();
-U"CTRL" + U"BACKTICK" : increaseAllLedsLuminosity();
-U"CTRL" + U"ENTER" : turnAllLedsOff();
