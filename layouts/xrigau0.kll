@@ -4,9 +4,7 @@ Version = "0.1";
 Author = "xrigau";
 KLL = "0.3c";
 
-illuminateLayer1Lock => CustomAction_illuminateLayer1Lock_capability();
-illuminateLayer1Shift => CustomAction_illuminateLayer1Shift_capability();
-illuminateLayer2Shift => CustomAction_illuminateLayer2Shift_capability();
+udpdateLedsWithFunctionLayer => udpdateLedsWithFunctionLayer_capability();
 
 U"ESC" : U"ESC";
 U"1" : U"1";
@@ -62,14 +60,13 @@ U"COMMA" : U"COMMA";
 U"PERIOD" : U"PERIOD";
 U"SLASH" : U"SLASH";
 U"RSHIFT" : U"RSHIFT";
-###U"FUNCTION1" : illuminateLayer1Lock() + layerLongLock(1); ## TODO: figure out LEDs in sync with layers
-U"FUNCTION1" : illuminateLayer1Lock() + layerLock(1);
-U"FUNCTION2" : illuminateLayer1Shift() + layerShift(1);
+U"FUNCTION1" : layerLongLock(1) + udpdateLedsWithFunctionLayer();
+U"FUNCTION2" : layerShift(1) + udpdateLedsWithFunctionLayer();
 U"LALT" : U"LALT";
 U"LGUI" : U"LGUI";
 U"SPACE" : U"SPACE";
 U"RGUI" : U"RGUI";
 U"RALT" : U"RALT";
 
-U"FUNCTION3" : illuminateLayer1Shift() + layerShift(1);
-U"FUNCTION4" : illuminateLayer2Shift() + layerShift(2);
+U"FUNCTION3" : layerShift(1) + udpdateLedsWithFunctionLayer();
+U"FUNCTION4" : layerShift(2) + udpdateLedsWithFunctionLayer();

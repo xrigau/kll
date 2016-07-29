@@ -4,10 +4,12 @@ Version = "0.1";
 Author = "xrigau";
 KLL = "0.3c";
 
-increaseAllLedsLuminosity => CustomAction_increaseAllLedsLuminosity_capability();
-decreaseAllLedsLuminosity => CustomAction_decreaseAllLedsLuminosity_capability();
-turnAllLedsOff => CustomAction_turnAllLedsOff_capability();
+increaseAllLedsLuminosity => increaseAllLedsLuminosity_capability();
+decreaseAllLedsLuminosity => decreaseAllLedsLuminosity_capability();
+turnAllLedsOn => turnAllLedsOn_capability();
+turnAllLedsOff => turnAllLedsOff_capability();
 
+##U"TAB" :SYS"SLEEP";
 U"ESC" : flashMode();
 
 U"LBRACE" : CONS"VOLUMEDOWN";
@@ -21,4 +23,12 @@ U"PERIOD" : U"END";
 
 U"MINUS" : decreaseAllLedsLuminosity();
 U"EQUAL" : increaseAllLedsLuminosity();
+U"9" : turnAllLedsOn();
 U"0" : turnAllLedsOff();
+
+U"BACKSLASH" : CONS"BRIGHTNESSDECREMENT";
+U"BACKTICK" : CONS"BRIGHTNESSINCREMENT";
+
+U"FUNCTION1": noneOut();
+U"FUNCTION2": noneOut();
+U"FUNCTION3": noneOut();
